@@ -1,10 +1,20 @@
 ---
 import { SITE_NAME, SITE_EMAIL, SITE_LINKEDIN } from '../consts';
 const year = new Date().getFullYear();
+
+interface Props {
+	windowTitle?: string;
+}
+
+const { windowTitle = 'Mason Rivera — Resume' } = Astro.props;
 ---
 
 <footer class="desk-strip">
 	<span class="desk-strip-start" aria-hidden="true">◆ Desktop</span>
+	<button type="button" class="desk-strip-task" id="taskbar-reopen" title="Reopen window">
+		<span class="title-icon" aria-hidden="true"></span>
+		{windowTitle}
+	</button>
 	<div class="desk-strip-links">
 		<span>&copy; {year} {SITE_NAME}</span>
 		<a href={SITE_LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>

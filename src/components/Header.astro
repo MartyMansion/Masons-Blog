@@ -8,15 +8,15 @@ interface Props {
 const { windowTitle = 'Mason Rivera — Resume' } = Astro.props;
 ---
 
-<div class="title-bar">
+<div class="title-bar" id="win-title-bar">
 	<div class="title-bar-text">
 		<span class="title-icon" aria-hidden="true"></span>
 		<a href="/">{windowTitle}</a>
 	</div>
-	<div class="title-controls" aria-hidden="true">
-		<button type="button" class="title-btn" tabindex="-1" title="Minimize">_</button>
-		<button type="button" class="title-btn" tabindex="-1" title="Maximize">□</button>
-		<button type="button" class="title-btn" tabindex="-1" title="Close">×</button>
+	<div class="title-controls">
+		<button type="button" class="title-btn" id="win-minimize" data-action="minimize" title="Minimize">_</button>
+		<button type="button" class="title-btn" id="win-maximize" data-action="maximize" title="Maximize">□</button>
+		<button type="button" class="title-btn" id="win-close" data-action="close" title="Close">×</button>
 	</div>
 </div>
 <div class="toolbar">
