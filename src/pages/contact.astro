@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_EMAIL, SITE_LINKEDIN, SITE_LOCATION, SITE_NAME } from '../consts';
+---
+
+<BaseLayout
+	title="Contact"
+	description={`Contact ${SITE_NAME} — email and LinkedIn for opportunities in IT security, EHR systems, and incident response.`}
+	windowTitle="Mason Rivera — Contact"
+	statusPath="C:\\Users\\Mason\\Resume\\Contact.txt"
+>
+	<h1>Contact</h1>
+	<p class="page-intro">
+		Open to conversations about cybersecurity administration, incident response, healthcare IT, and
+		endpoint / identity roles. Prefer email or LinkedIn.
+	</p>
+
+	<dl class="contact-box">
+		<dt>Email</dt>
+		<dd><a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a></dd>
+		<dt>LinkedIn</dt>
+		<dd>
+			<a href={SITE_LINKEDIN} target="_blank" rel="noopener noreferrer">linkedin.com/in/mason-rivera</a>
+		</dd>
+		<dt>Location</dt>
+		<dd>{SITE_LOCATION}</dd>
+	</dl>
+</BaseLayout>

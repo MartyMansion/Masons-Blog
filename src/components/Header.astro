@@ -1,0 +1,30 @@
+---
+import HeaderLink from './HeaderLink.astro';
+
+interface Props {
+	windowTitle?: string;
+}
+
+const { windowTitle = 'Mason Rivera — Resume' } = Astro.props;
+---
+
+<div class="title-bar">
+	<div class="title-bar-text">
+		<span class="title-icon" aria-hidden="true"></span>
+		<a href="/">{windowTitle}</a>
+	</div>
+	<div class="title-controls" aria-hidden="true">
+		<button type="button" class="title-btn" tabindex="-1" title="Minimize">_</button>
+		<button type="button" class="title-btn" tabindex="-1" title="Maximize">□</button>
+		<button type="button" class="title-btn" tabindex="-1" title="Close">×</button>
+	</div>
+</div>
+<div class="toolbar">
+	<span class="toolbar-label">Navigate:</span>
+	<nav class="nav" aria-label="Primary">
+		<HeaderLink href="/">Home</HeaderLink>
+		<HeaderLink href="/experience/">Experience</HeaderLink>
+		<HeaderLink href="/skills/">Skills</HeaderLink>
+		<HeaderLink href="/contact/">Contact</HeaderLink>
+	</nav>
+</div>

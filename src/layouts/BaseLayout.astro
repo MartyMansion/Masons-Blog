@@ -1,0 +1,45 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+	windowTitle?: string;
+	statusPath?: string;
+}
+
+const {
+	title = SITE_TITLE,
+	description = SITE_DESCRIPTION,
+	windowTitle,
+	statusPath = 'C:\\Users\\Mason\\Resume',
+} = Astro.props;
+
+const pageTitle = title === SITE_TITLE ? title : `${title} | Mason Rivera`;
+const chromeTitle = windowTitle ?? (title === SITE_TITLE ? 'Mason Rivera — Resume' : String(title));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={pageTitle} description={description} />
+	</head>
+	<body>
+		<div class="desktop">
+			<div class="app-window" role="region" aria-label={chromeTitle}>
+				<Header windowTitle={chromeTitle} />
+				<div class="window-body">
+					<slot />
+				</div>
+				<div class="status-bar" role="status">
+					<div class="status-panel">Ready</div>
+					<div class="status-panel grow">{statusPath}</div>
+				</div>
+			</div>
+			<Footer />
+		</div>
+	</body>
+</html>

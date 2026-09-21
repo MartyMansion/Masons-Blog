@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+	SITE_NAME,
+	SITE_ROLE,
+	SITE_LOCATION,
+	SITE_LINKEDIN,
+	SITE_DESCRIPTION,
+} from '../consts';
+---
+
+<BaseLayout description={SITE_DESCRIPTION} windowTitle="Mason Rivera — Home" statusPath="C:\\Users\\Mason\\Resume\\Home.txt">
+	<section class="hero">
+		<p class="hero-eyebrow">{SITE_LOCATION}</p>
+		<h1>{SITE_NAME}</h1>
+		<p class="hero-role">{SITE_ROLE}</p>
+		<p class="lead">
+			IT EHR Systems &amp; Cybersecurity Administrator at a community mental health organization,
+			with a strong focus on enterprise incident response, Microsoft security operations, and secure
+			endpoint management. I lead investigations from detection through recovery, coordinate
+			cross-functional Incident Response Team activity, and administer SaaS EHR platforms —
+			including the V.E.R.A. migration.
+		</p>
+		<p class="lead">
+			CompTIA Security+, CompTIA Network+, and Blue Team Level 1 (BTL1) certified.
+		</p>
+		<div class="cta-row">
+			<a class="btn btn-primary" href="/experience/">View experience</a>
+			<a class="btn btn-secondary" href="/contact/">Contact</a>
+			<a class="btn btn-secondary" href={SITE_LINKEDIN} target="_blank" rel="noopener noreferrer"
+				>LinkedIn</a
+			>
+		</div>
+	</section>
+
+	<section>
+		<h2>Focus areas</h2>
+		<div class="chips">
+			<span class="chip">Incident Response</span>
+			<span class="chip">Microsoft Defender / EDR</span>
+			<span class="chip">Intune &amp; Entra ID</span>
+			<span class="chip">Zero Trust</span>
+			<span class="chip">SaaS EHR / V.E.R.A.</span>
+			<span class="chip">Conditional Access</span>
+			<span class="chip">Digital Forensics</span>
+			<span class="chip">Tabletop Exercises</span>
+		</div>
+	</section>
+
+	<section>
+		<h2>Currently</h2>
+		<div class="card">
+			<h3>IT EHR Systems &amp; Cybersecurity Administrator</h3>
+			<p class="card-meta">Vera French Community Mental Health Center · Davenport, IA · Jan 2024 – Present</p>
+			<p>
+				Leading enterprise cybersecurity incident investigations, co-authoring the IT Incident Response
+				Plan, administering Intune / Entra ID endpoints, and supporting SaaS EHR operations after the
+				NextGen → V.E.R.A. migration.
+			</p>
+			<p style="margin-bottom: 0;">
+				<a href="/experience/">Full experience timeline →</a>
+			</p>
+		</div>
+	</section>
+</BaseLayout>

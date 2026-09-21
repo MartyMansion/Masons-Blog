@@ -1,0 +1,26 @@
+---
+import { SITE_NAME, SITE_EMAIL, SITE_LINKEDIN } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="desk-strip">
+	<span class="desk-strip-start" aria-hidden="true">◆ Desktop</span>
+	<div class="desk-strip-links">
+		<span>&copy; {year} {SITE_NAME}</span>
+		<a href={SITE_LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+		<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
+	</div>
+	<span class="desk-clock" id="desk-clock" aria-hidden="true">--:--</span>
+</footer>
+<script is:inline>
+	(function () {
+		var el = document.getElementById('desk-clock');
+		if (!el) return;
+		function tick() {
+			var d = new Date();
+			el.textContent = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+		}
+		tick();
+		setInterval(tick, 30000);
+	})();
+</script>

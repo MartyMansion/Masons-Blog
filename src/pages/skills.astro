@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const groups = [
+	{
+		title: 'Incident Response & Security Ops',
+		skills: [
+			'IRP / playbooks',
+			'Tabletop exercises',
+			'Digital forensics & chain of custody',
+			'Microsoft Defender / EDR',
+			'MFA',
+			'Conditional Access',
+			'IOC triage',
+			'Zero Trust',
+		],
+	},
+	{
+		title: 'Endpoint & Identity',
+		skills: [
+			'Microsoft Intune',
+			'Entra ID / Azure AD',
+			'Windows Hello for Business',
+			'Apple Business Manager',
+			'Active Directory security',
+			'Federated authentication',
+		],
+	},
+	{
+		title: 'EHR & Infrastructure',
+		skills: [
+			'SaaS EHR (PCE Technologies)',
+			'V.E.R.A.',
+			'NextGen (legacy)',
+			'VMware vSphere',
+			'SQL Server',
+			'Windows Server',
+			'Microsoft 365',
+			'Veeam backups',
+		],
+	},
+];
+---
+
+<BaseLayout
+	title="Skills & Certifications"
+	description="Technical skills and certifications — Incident Response, Intune, Entra ID, SaaS EHR, Security+, Network+, BTL1."
+	windowTitle="Mason Rivera — Skills"
+	statusPath="C:\\Users\\Mason\\Resume\\Skills.txt"
+>
+	<h1>Skills &amp; Certifications</h1>
+	<p class="page-intro">
+		Grouped the way I work day to day: security operations first, then identity and endpoints, then the
+		clinical systems and infrastructure that keep care running.
+	</p>
+
+	<h2>Certifications</h2>
+	<div class="cert-row">
+		<div class="cert">CompTIA Security+<small>Cybersecurity fundamentals</small></div>
+		<div class="cert">CompTIA Network+<small>Networking &amp; infrastructure</small></div>
+		<div class="cert">Blue Team Level 1 (BTL1)<small>Defensive security / SOC</small></div>
+	</div>
+
+	<h2>Technical skills</h2>
+	{
+		groups.map((g) => (
+			<div class="skill-group">
+				<h3>{g.title}</h3>
+				<div class="chips">
+					{g.skills.map((s) => (
+						<span class="chip">{s}</span>
+					))}
+				</div>
+			</div>
+		))
+	}
+</BaseLayout>
