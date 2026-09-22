@@ -1,0 +1,8 @@
+services:
+  masonsblog:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-4321}:${PORT:-4321}"
+    restart: unless-stopped

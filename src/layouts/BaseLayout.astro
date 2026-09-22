@@ -2,6 +2,8 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import DesktopIcons from '../components/DesktopIcons.astro';
+import MailApp from '../components/MailApp.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 interface Props {
@@ -29,17 +31,72 @@ const chromeTitle = windowTitle ?? (title === SITE_TITLE ? 'Mason Rivera — Res
 	</head>
 	<body>
 		<div class="desktop">
-			<div class="app-window" role="region" aria-label={chromeTitle}>
+			<DesktopIcons />
+			<div class="app-window" id="app-window" role="region" aria-label={chromeTitle}>
 				<Header windowTitle={chromeTitle} />
-				<div class="window-body">
+				<div class="window-body" id="window-body">
 					<slot />
 				</div>
-				<div class="status-bar" role="status">
+				<div class="status-bar" id="status-bar" role="status">
 					<div class="status-panel">Ready</div>
 					<div class="status-panel grow">{statusPath}</div>
 				</div>
 			</div>
-			<Footer />
+			<button type="button" class="closed-tile" id="closed-tile" hidden>
+				<strong>window closed</strong>
+				<p>{statusPath} — click to reopen</p>
+			</button>
+			<Footer windowTitle={chromeTitle} />
 		</div>
+		<MailApp />
+		<script>
+			(function () {
+				const win = document.getElementById('app-window');
+				const titleBar = document.getElementById('win-title-bar');
+				const closedTile = document.getElementById('closed-tile');
+				const minimizeBtn = document.getElementById('win-minimize');
+				const maximizeBtn = document.getElementById('win-maximize');
+				const closeBtn = document.getElementById('win-close');
+				const taskbarBtn = document.getElementById('taskbar-reopen');
+				if (!win || !closedTile) return;
+
+				function setState(state) {
+					win.classList.remove('minimized', 'maximized');
+					win.hidden = false;
+					closedTile.hidden = true;
+					if (state === 'minimized') win.classList.add('minimized');
+					if (state === 'maximized') win.classList.add('maximized');
+					if (state === 'closed') {
+						win.hidden = true;
+						closedTile.hidden = false;
+					}
+					if (maximizeBtn) {
+						maximizeBtn.textContent = state === 'maximized' ? '❐' : '□';
+						maximizeBtn.title = state === 'maximized' ? 'Restore down' : 'Maximize';
+					}
+					if (minimizeBtn) {
+						minimizeBtn.title = state === 'minimized' ? 'Restore' : 'Minimize';
+					}
+				}
+
+				minimizeBtn?.addEventListener('click', (e) => {
+					e.stopPropagation();
+					setState(win.classList.contains('minimized') ? 'normal' : 'minimized');
+				});
+				maximizeBtn?.addEventListener('click', (e) => {
+					e.stopPropagation();
+					setState(win.classList.contains('maximized') ? 'normal' : 'maximized');
+				});
+				closeBtn?.addEventListener('click', (e) => {
+					e.stopPropagation();
+					setState('closed');
+				});
+				titleBar?.addEventListener('click', () => {
+					if (win.classList.contains('minimized')) setState('normal');
+				});
+				closedTile.addEventListener('click', () => setState('normal'));
+				taskbarBtn?.addEventListener('click', () => setState('normal'));
+			})();
+		</script>
 	</body>
 </html>

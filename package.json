@@ -8,14 +8,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
+    "@astrojs/node": "^11.1.6",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.3",
+    "dotenv": "^18.0.1",
+    "nodemailer": "^10.0.10",
     "sharp": "^0.35.0"
   },
   "allowScripts": {

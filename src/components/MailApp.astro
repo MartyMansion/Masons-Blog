@@ -1,0 +1,130 @@
+---
+import { SITE_EMAIL } from '../consts';
+---
+
+<div class="overlay-backdrop" id="mail-overlay" aria-hidden="true">
+	<div class="mail-window" id="mail-window" role="dialog" aria-modal="true" aria-label="Mail — New Message">
+		<div class="title-bar" id="mail-title-bar">
+			<div class="title-bar-text">
+				<span class="title-icon" aria-hidden="true"></span>
+				<span>Mail — New Message</span>
+			</div>
+			<div class="title-controls">
+				<button type="button" class="title-btn" id="mail-minimize" title="Minimize">_</button>
+				<button type="button" class="title-btn" id="mail-maximize" title="Maximize">□</button>
+				<button type="button" class="title-btn" id="mail-close" title="Close">×</button>
+			</div>
+		</div>
+		<div class="mail-body" id="mail-body">
+			<form id="mail-form" novalidate>
+				<div class="field">
+					<label for="mail-name">Name</label>
+					<input id="mail-name" name="name" required placeholder="Your name" />
+				</div>
+				<div class="field">
+					<label for="mail-email">Email</label>
+					<input id="mail-email" type="email" name="email" required placeholder="you@example.com" />
+				</div>
+				<div class="field">
+					<label for="mail-message">Message</label>
+					<textarea id="mail-message" name="message" rows="5" required placeholder="Let's talk about..."></textarea>
+				</div>
+				<button type="submit" class="btn" id="mail-submit">Send</button>
+				<p id="mail-status" class="mail-status" role="status"></p>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script define:vars={{ fallbackEmail: SITE_EMAIL }}>
+	(function () {
+		const overlay = document.getElementById('mail-overlay');
+		const win = document.getElementById('mail-window');
+		const titleBar = document.getElementById('mail-title-bar');
+		const minimizeBtn = document.getElementById('mail-minimize');
+		const maximizeBtn = document.getElementById('mail-maximize');
+		const closeBtn = document.getElementById('mail-close');
+		const form = document.getElementById('mail-form');
+		const submitBtn = document.getElementById('mail-submit');
+		const status = document.getElementById('mail-status');
+		if (!overlay || !win || !form || !submitBtn || !status) return;
+
+		function openMail() {
+			overlay.classList.add('open');
+			overlay.setAttribute('aria-hidden', 'false');
+			document.getElementById('mail-name')?.focus();
+		}
+		function closeMail() {
+			overlay.classList.remove('open');
+			overlay.setAttribute('aria-hidden', 'true');
+			win.classList.remove('minimized', 'maximized');
+			if (maximizeBtn) {
+				maximizeBtn.textContent = '□';
+				maximizeBtn.title = 'Maximize';
+			}
+		}
+
+		document.querySelectorAll('[data-open-mail]').forEach((el) => {
+			el.addEventListener('click', (e) => {
+				e.preventDefault();
+				openMail();
+			});
+		});
+		closeBtn?.addEventListener('click', closeMail);
+		minimizeBtn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			win.classList.toggle('minimized');
+			win.classList.remove('maximized');
+		});
+		maximizeBtn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			const nowMaximized = !win.classList.contains('maximized');
+			win.classList.toggle('maximized', nowMaximized);
+			win.classList.remove('minimized');
+			maximizeBtn.textContent = nowMaximized ? '❐' : '□';
+			maximizeBtn.title = nowMaximized ? 'Restore down' : 'Maximize';
+		});
+		titleBar?.addEventListener('click', () => {
+			if (win.classList.contains('minimized')) win.classList.remove('minimized');
+		});
+		overlay.addEventListener('click', (e) => {
+			if (e.target === overlay) closeMail();
+		});
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && overlay.classList.contains('open')) closeMail();
+		});
+
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			status.textContent = 'Sending…';
+			submitBtn.disabled = true;
+
+			const data = {
+				name: document.getElementById('mail-name').value,
+				email: document.getElementById('mail-email').value,
+				message: document.getElementById('mail-message').value,
+			};
+
+			fetch('/api/contact/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data),
+			})
+				.then(async (res) => {
+					const body = await res.json().catch(() => ({}));
+					if (!res.ok) throw new Error(body.error || 'Failed to send.');
+					return body;
+				})
+				.then(() => {
+					status.textContent = "Message sent — thanks for reaching out. I'll get back to you soon.";
+					form.reset();
+				})
+				.catch((err) => {
+					status.textContent = err.message || `Something went wrong. Email me directly at ${fallbackEmail}.`;
+				})
+				.finally(() => {
+					submitBtn.disabled = false;
+				});
+		});
+	})();
+</script>

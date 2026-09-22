@@ -134,6 +134,162 @@ li::marker { color: var(--title-blue); }
 	padding: 1.25rem 1rem 0.75rem;
 }
 
+/* Desktop icons */
+.desktop-icons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.9rem 1.1rem;
+	max-width: var(--max);
+	margin: 0 auto 0.9rem;
+	width: 100%;
+}
+@media (min-width: 1180px) {
+	.desktop-icons {
+		position: fixed;
+		top: 1.5rem;
+		left: 1.25rem;
+		flex-direction: column;
+		max-width: none;
+		width: auto;
+		margin: 0;
+		z-index: 5;
+	}
+}
+.desktop-icon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem;
+	width: 4.5rem;
+	padding: 0.35rem 0.2rem 0.25rem;
+	background: none;
+	border: none;
+	font-family: var(--font-ui);
+	color: var(--win-white);
+	text-decoration: none;
+	cursor: pointer;
+	text-align: center;
+}
+.desktop-icon:visited { color: var(--win-white); }
+.desktop-icon-glyph {
+	width: 2.1rem;
+	height: 2.1rem;
+	display: grid;
+	place-items: center;
+	background: var(--win-face);
+	color: var(--win-black);
+	box-shadow: var(--bevel-out);
+}
+.desktop-icon-glyph svg {
+	width: 18px;
+	height: 18px;
+}
+.desktop-icon-label {
+	font-size: 0.7rem;
+	font-weight: 700;
+	color: var(--win-white);
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+	line-height: 1.2;
+}
+.desktop-icon:hover .desktop-icon-glyph,
+.desktop-icon:focus-visible .desktop-icon-glyph {
+	box-shadow: var(--bevel-in);
+}
+.desktop-icon:hover .desktop-icon-label {
+	text-decoration: underline;
+}
+.desktop-icon:focus-visible {
+	outline: 1px dotted var(--win-white);
+	outline-offset: 3px;
+}
+
+/* Mail app overlay */
+.overlay-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	z-index: 50;
+}
+.overlay-backdrop.open {
+	display: flex;
+}
+.mail-window {
+	width: 100%;
+	max-width: 26rem;
+	background: var(--win-face);
+	box-shadow: var(--bevel-out), 4px 4px 0 rgba(0, 0, 0, 0.25);
+	padding: 3px;
+}
+.mail-window.minimized {
+	max-width: 18rem;
+}
+.mail-window.minimized .mail-body {
+	display: none;
+}
+.mail-window.minimized .title-bar {
+	cursor: pointer;
+}
+.mail-window.maximized {
+	max-width: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.mail-window.maximized .mail-body {
+	flex: 1;
+	overflow: auto;
+}
+.mail-body {
+	background: var(--content-bg);
+	box-shadow: var(--bevel-in);
+	margin: 2px 2px 0;
+	padding: 1rem 1.1rem 1.2rem;
+	color: var(--content-text);
+}
+.mail-status {
+	margin: 0.65rem 0 0;
+	font-size: 0.8rem;
+	color: var(--content-muted);
+}
+
+.field {
+	margin-bottom: 0.85rem;
+}
+.field label {
+	display: block;
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--content-muted);
+	margin-bottom: 0.25rem;
+}
+.field input,
+.field textarea {
+	width: 100%;
+	font-family: var(--font-ui);
+	font-size: 0.88rem;
+	padding: 0.35rem 0.5rem;
+	border: none;
+	background: var(--win-white);
+	color: var(--content-text);
+	box-shadow: var(--bevel-in-shallow);
+}
+.field input:focus,
+.field textarea:focus {
+	outline: 1px dotted var(--focus-ring);
+	outline-offset: 1px;
+}
+.field textarea {
+	resize: vertical;
+	min-height: 5.5rem;
+}
+
 .app-window {
 	flex: 1;
 	width: 100%;
@@ -145,6 +301,65 @@ li::marker { color: var(--title-blue); }
 	box-shadow: var(--bevel-out), 4px 4px 0 rgba(0, 0, 0, 0.25);
 	padding: 3px;
 	min-height: calc(100vh - 4.5rem);
+}
+.app-window[hidden] {
+	display: none;
+}
+.app-window.minimized {
+	flex: none;
+	min-height: 0;
+}
+.app-window.minimized .window-body,
+.app-window.minimized .status-bar {
+	display: none;
+}
+.app-window.minimized .title-bar {
+	cursor: pointer;
+}
+.app-window.maximized {
+	position: fixed;
+	inset: 0;
+	z-index: 50;
+	margin: 0;
+	max-width: none;
+	min-height: 100vh;
+}
+
+/* Closed-window placeholder */
+.closed-tile {
+	display: none;
+	width: 100%;
+	max-width: var(--max);
+	margin: 0 auto;
+	flex: 1;
+	min-height: calc(100vh - 4.5rem);
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background: var(--win-face);
+	box-shadow: var(--bevel-in);
+	color: var(--content-text);
+	font-family: var(--font-ui);
+	cursor: pointer;
+	padding: 2rem;
+}
+.closed-tile:not([hidden]) {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+.closed-tile strong {
+	font-size: 1rem;
+}
+.closed-tile p {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--content-muted);
+	word-break: break-word;
+}
+.closed-tile:focus-visible {
+	outline: 2px dotted var(--focus-ring);
+	outline-offset: -4px;
 }
 
 /* Title bar */
@@ -348,6 +563,39 @@ li::marker { color: var(--title-blue); }
 .desk-strip-start:hover {
 	color: var(--win-black);
 	text-decoration: none;
+}
+.desk-strip-task {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.2rem 0.65rem;
+	background: var(--win-face);
+	box-shadow: var(--bevel-out);
+	font-weight: 700;
+	font-size: 0.76rem;
+	font-family: var(--font-ui);
+	border: none;
+	color: var(--win-black);
+	cursor: pointer;
+	max-width: 13rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.desk-strip-task .title-icon {
+	width: 11px;
+	height: 11px;
+	flex-shrink: 0;
+}
+.desk-strip-task:hover {
+	background: var(--win-face-light);
+}
+.desk-strip-task:active {
+	box-shadow: var(--bevel-in);
+}
+.desk-strip-task:focus-visible {
+	outline: 1px dotted var(--win-black);
+	outline-offset: -3px;
 }
 .desk-strip-links {
 	display: flex;

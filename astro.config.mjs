@@ -2,6 +2,7 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import node from '@astrojs/node';
 import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
@@ -9,6 +10,7 @@ export default defineConfig({
 	site: 'https://masonsblog.com',
 	trailingSlash: 'always',
 	integrations: [mdx(), sitemap()],
+	adapter: node({ mode: 'standalone' }),
 	fonts: [
 		{
 			provider: fontProviders.local(),
